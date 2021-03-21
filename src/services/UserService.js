@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import Mongoose from './MongooseService';
 import { roles } from '../utils/constants';
-import { deletePw } from '../utils/utility';
+import { deletePw } from '../utils/helpers';
 import PostService from './PostService';
 import Post from '../models/post';
 import Draft from '../models/draft';

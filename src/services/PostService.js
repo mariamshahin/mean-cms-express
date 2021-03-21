@@ -1,5 +1,5 @@
 import Mongoose from './MongooseService';
-import { deletePw } from '../utils/utility';
+import { deletePw, getSubstr } from '../utils/helpers';
 import { roles } from '../utils/constants';
 
 export default class PostService extends Mongoose {
@@ -35,12 +35,16 @@ export default class PostService extends Mongoose {
       if (user && user.role !== roles.ADMIN && user.role !== roles.AUTHOR) {
         result = await this.findLast({ user: user._id }, '-updated_at', null);
       } else {
-        result = await this.findAllAndPopulate(
+        const posts = await this.findAllAndPopulate(
           null,
           '-updated_at',
           null,
           'user'
         );
+        result = posts.map((post) => ({
+          ...post._doc,
+          content: getSubstr(post._doc.content, 500),
+        }));
       }
       return { result };
     } catch (error) {
