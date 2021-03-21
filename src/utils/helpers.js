@@ -5,3 +5,8 @@ export const deletePw = (user) => {
   delete updatedUser.password;
   return updatedUser;
 };
+
+export const getSubstr = (str, char) => {
+  const res = str.substring(0, char);
+  return res;
+};
