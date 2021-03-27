@@ -12,7 +12,7 @@ export default class PostService extends Mongoose {
     const { title, content } = body;
     const user_id = user._id;
     if (file) {
-      image_url = `static/${file.path}`;
+      image_url = `static/${file.key}`;
     }
     try {
       const result = await this.create({
@@ -85,7 +85,7 @@ export default class PostService extends Mongoose {
         return { post, result };
       }
       if (file) {
-        const image_url = `static/${file.path}`;
+        const image_url = `static/${file.key}`;
         result = await this.updateOne(id, {
           title,
           content,

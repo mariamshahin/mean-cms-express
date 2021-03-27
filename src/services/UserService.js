@@ -100,7 +100,7 @@ export default class UserService extends Mongoose {
       const user = await this.updateOne(
         id,
         {
-          image_url: `static/${file.path}`,
+          image_url: `static/${file.key}`,
         },
         options
       );

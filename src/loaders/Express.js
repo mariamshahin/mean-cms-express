@@ -2,17 +2,16 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import bodyParser from 'body-parser';
-import path from 'path';
 import compression from 'compression';
 import morgan from 'morgan';
 import routes from '../routes';
 import upload from '../middlewares/upload';
+import staticImages from '../middlewares/static';
 import logger from '../services/LoggerService';
 
 export default class ExpressLoader {
   constructor() {
     const app = express();
-    const root = process.cwd();
     const corsOptions = {
       origin: true,
     };
@@ -31,7 +30,9 @@ export default class ExpressLoader {
     );
 
     // Serve static content
-    app.use('/static/uploads', express.static(path.join(root, 'uploads')));
+    app.use('/static', (req, res) => {
+      staticImages(req, res);
+    });
 
     // Pass app to routes
     routes(app);
@@ -40,7 +41,7 @@ export default class ExpressLoader {
     app.use(ExpressLoader.errorHandler);
 
     // use route not found plain response
-    app.use(function (req, res) {
+    app.use((req, res) => {
       res.sendStatus(404);
     });
 
